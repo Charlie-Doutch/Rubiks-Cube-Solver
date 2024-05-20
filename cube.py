@@ -5,7 +5,6 @@ class RubiksCube:
     # Rubiks Cube Class
 
     def __init__(self, n = 3, colours = ['w', 'o', 'g', 'r', 'b', 'y'], state = None):
-ghghjgjh
         """
         n = number for width and height of cube
         colours = list with first letter of every colour
