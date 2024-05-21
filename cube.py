@@ -92,6 +92,63 @@ class RubiksCube:
                                                                                               self.cube[1][row],
                                                                                               self.cube[2][row],
                                                                                               self.cube[3][row])
-            else: #Print error message
+            else: #Print error message, for debugging
                 print(f'ERROR - direction has to be 0 (left) or 1 (right)') 
                 return
+            #Rotate connected pieces
+            if direction == 0: #Left Move
+                if row == 0:
+                    self.cube[0] = [list(x) for x in zip(*reversed(self.cube[0]))] #Move Top
+                elif row == len(self.cube[0]) -1:
+                    self.cube[5] = [list(x) for x in zip(*reversed(self.cube[5]))] #Move Bottom
+            
+            elif direction == 1: #Right Move
+                if row == 0:
+                    self.cube[0] = [list(x) for x in zip(*self.cube[0])][::-1] #Move Top
+                elif row == len(self.cube[0]) -1:
+                    self.cube[5] = [list(x) for x in zip(*self.cube[5])][::-1] #Move Bottom
+            
+        else: #Error message for debugging
+            print(f'ERROR - Row selected outside of range. Select from 0-{len(self.cube[0])-1}')
+            return
+        
+    def vertical_move(self, column, direction):
+        """
+        column = Number indicating column to turn
+        direction = Bool indicating move up or down
+        """
+        if column < len(self.cube[0]):
+            for i in range(len(self.cube[0])):
+                if direction == 0: #Down Move
+                    self.cube[0][i][column], self.cube[2][i][column], self.cube[4][-i-1][-column-1], self.cube[5][i][column] = (self.cube[4][-i-1][-column-1],
+                                                                                                                                self.cube[0][i][column],
+                                                                                                                                self.cube[5][i][column],
+                                                                                                                                self.cube[2][i][column])
+                
+                elif direction == 1: #Up Move
+                    self.cube[0][i][column], self.cube[2][i][column], self.cube[4][-i-1][-column-1], self.cube[5][i][column] = (self.cube[2][i][column],
+                                                                                                                                self.cube[5][i][column],
+                                                                                                                                self.cube[0][i][column],
+                                                                                                                                self.cube[4][-i-1][-column-1]) 
+                    
+                else: #Error message for debugging
+                    print(f'ERROR - direction must be 0 (down) or 1 (up)')
+                    return
+            
+            #Move connected pieces
+            if direction == 0: #Move Down
+                if column == 0:
+                    self.cube[1] = [list(x) for x in zip(*self.cube[1])][::1] #Move Left
+                elif column == len(self.cube[0]) -1:
+                    self.cube[3] = [list(x) for x in zip(*self.cube[3])][::1] #Move Right
+            
+            elif direction == 1: #Move Up
+                if column == 0:
+                    self.cube[1] = [list(x) for x in zip(*reversed(self.cube[1]))] #Move Left
+                elif column == len(self.cube[0]) -1:
+                    self.cube[3] = [list(x) for x in zip(*reversed(self.cube[3]))] #Move Right
+        
+        else:
+            print(f'ERROR - column outside range. Select from 0-{len(self.cube[0])-1}')
+            return
+        
