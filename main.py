@@ -8,8 +8,8 @@ MAX_MOVES = 5
 NEW_HEURISTICS = False
 HEURISTIC_FILE = 'heuristic.json'
 
-cube = RubiksCube(state ="ryrowoobobyywowrrygrwggwgbybwbbrybgowgybbrwgwrooyyrgog")
-# cube.show()
+cube = RubiksCube(state="rrrwrwrgryrywwwwrwbrbggggggwowyyyyyygygbbbbbbooobooooo")
+cube.show()
 print('-----------')
 
 if os.path.exists(HEURISTIC_FILE):
@@ -20,13 +20,13 @@ else:
 
 if h_db is None or NEW_HEURISTICS is True:
     actions = [(r, n, d) for r in ['h', 'v', 'fb'] for d in [0, 1] for n in range(cube.n)]
-    h_db = build_heuristic_dict(cube.createString, actions, max_moves=MAX_MOVES, heuristic=h_db)
+    h_db = build_heuristic_dict(cube.stringify(), actions, max_moves = MAX_MOVES, heuristic = h_db)
 
     with open(HEURISTIC_FILE, 'w', encoding='utf-8') as f:
         json.dump(h_db, f, ensure_ascii=False, indent=4)
 
 solver = IDA_star(h_db)
-moves = solver.run(cube.createString())
+moves = solver.run(cube.stringify())
 print(moves) #Temp Function to store solution in terminal until window works properly
 
 for m in moves:

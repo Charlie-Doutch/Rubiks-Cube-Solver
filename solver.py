@@ -110,7 +110,7 @@ def build_heuristic_dict(state, actions, max_moves = 20, heuristic = None):
                     cube.vertical_move(a[1], a[2])
                 elif a[0] == 'fb':
                     cube.front_back_move(a[1], a[2])
-                a_str = cube.createString()
+                a_str = cube.stringify()
                 if a_str not in heuristic or heuristic[a_str] > d + 1:
                     heuristic[a_str] = d + 1
                 que.append((a_str, d+1))
