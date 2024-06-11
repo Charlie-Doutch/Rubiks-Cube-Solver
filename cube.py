@@ -4,9 +4,9 @@ class RubiksCube:
     
     # Rubiks Cube Class
 
-    def __init__(self, dimensions = 3, colours = ['w', 'o', 'g', 'r', 'b', 'y'], state = None):
+    def __init__(self, n = 3, colours = ['w', 'o', 'g', 'r', 'b', 'y'], state = None):
         """
-        dimensions = number for width and height of cube
+        n = number for width and height of cube
         colours = list with first letter of every colour
         state = String representing state of cube
 
@@ -14,27 +14,27 @@ class RubiksCube:
         """
 
         if state is None:
-            self.dimesions = dimensions
+            self.n = n
             self.colours = colours
             self.reset()
         else:
-            self.dimesions = int((len(state) / 6) ** (0.5))
+            self.n = int((len(state) / 6) ** (0.5))
             self.colours = []
             self.cube = [[[]]]
             for i, s in enumerate(state):
                 if s not in self.colours:
                     self.colours.append(s)
                     self.cube[-1][-1].append(s)
-                if len(self.cube[-1][-1]) == self.dimesions and len(self.cube[-1]) < dimensions:
+                if len(self.cube[-1][-1]) == self.n and len(self.cube[-1]) < n:
                     self.cube[-1].append([])
-                elif len(self.cube[-1][-1]) == self.dimesions and len(self.cube[-1]) == self.dimesions and i < len(state) -1:
+                elif len(self.cube[-1][-1]) == self.n and len(self.cube[-1]) == self.n and i < len(state) -1:
                     self.cube.append([[]])
 
     def reset(self):
         """
         Reset Cube
         """
-        self.cube = [[[c for x in range(self.dimesions)] for y in range(self.dimesions)] for c in self.colours]
+        self.cube = [[[c for x in range(self.n)] for y in range(self.n)] for c in self.colours]
 
     def solved(self):
         """
@@ -71,7 +71,7 @@ class RubiksCube:
         """
         spacing = f'{" " * (len(str(self.cube[0][0])) + 2)}'
         l1 = '\n'.join(spacing + str(c) for c in self.cube[0])
-        l2 = '\n'.join('  '.join(str(self.cube[i][j]) for i in range(1, 5)) for j in range(len(self.cube[0])))
+        l2 = '\n'.join('  '.join(str(self.cube[i][j]) for i in range(1,5)) for j in range(len(self.cube[0])))
         l3 = '\n'.join(spacing + str(c) for c in self.cube[5])
         print(f'{l1}\n\n{l2}\n\n{l3}')
 
