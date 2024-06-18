@@ -60,7 +60,7 @@ class IDA_star(object):
             if cube.solved():
                 self.moves.appened(a)
                 return True
-            cube_str = cube.createString()
+            cube_str = cube.stringify()
             heuristic_score = self.heuristic[cube_str] if cube_str in self.heuristic else self.max_depth
             final_score = search_score + heuristic_score
             if final_score < min_val:
