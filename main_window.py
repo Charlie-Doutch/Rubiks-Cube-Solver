@@ -131,7 +131,7 @@ blocks = Blocks()
 cube_net = pygame.image.load("Rubiks-Cube-Solver/Assets/Cube_Net.png").convert_alpha()
 
 while True:
-    screen.fill((255, 184, 179))
+    screen.fill((255, 209, 245))
 
     screen.blit(cube_net, (0, 0))
 
