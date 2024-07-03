@@ -3,12 +3,13 @@ import os.path
 
 from cube import RubiksCube
 from solver import IDA_star, build_heuristic_dict
+from main_window import Block, Blocks
 
 MAX_MOVES = 5
 NEW_HEURISTICS = False
 HEURISTIC_FILE = 'Rubiks-Cube-Solver/heuristic.json'
 
-cube = RubiksCube(state="byobworbbyygrggbggyrwwrwwobryybboogwgrrbowggorwyryywoo")
+cube = RubiksCube(state=Blocks.get_colours_string())
 cube.show()
 print('-----------')
 

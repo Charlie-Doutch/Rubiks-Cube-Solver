@@ -137,9 +137,8 @@ while True:
 
     blocks.draw(screen)
 
-    # Get and print the color string
+    # Get and print the colour string
     colours_string = blocks.get_colours_string()
-    print(colours_string)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
