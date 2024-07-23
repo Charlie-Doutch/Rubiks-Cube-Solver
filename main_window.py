@@ -126,7 +126,22 @@ class Blocks:
         ]
         return ''.join(colors_string)
 
+class Buttons:
+    def __init__(self, x, y, width, height):
+        self.rect = pygame.Rect(x, y, width, height)
+
+    def solve_button(self, x, y, width, height, screen):
+        x = 100
+        y = 700
+        width = 50
+        height = 20
+        self.rect = pygame.Rect(x, y, width, height)
+        pygame.draw.rect(screen, 'White', self.rect)
+
+
 blocks = Blocks()
+
+buttons = Buttons()
 
 cube_net = pygame.image.load("Rubiks-Cube-Solver/Assets/Cube_Net.png").convert_alpha()
 
@@ -136,6 +151,8 @@ while True:
     screen.blit(cube_net, (0, 0))
 
     blocks.draw(screen)
+
+    buttons.solve_button
 
     # Get and print the colour string
     colours_string = blocks.get_colours_string()
