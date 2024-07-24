@@ -1,6 +1,7 @@
 import sys
 import pygame
 
+
 pygame.init()
 
 pygame.display.set_caption('RCS')
@@ -127,16 +128,16 @@ class Blocks:
         return ''.join(colors_string)
 
 class Buttons:
-    def __init__(self, x, y, width, height):
-        self.rect = pygame.Rect(x, y, width, height)
+    def __init__(self):
+        pass
 
-    def solve_button(self, x, y, width, height, screen):
-        x = 100
-        y = 700
-        width = 50
-        height = 20
+    def solve_button(self, screen):
+        x = 724
+        y = 650
+        width = 200
+        height = 80
         self.rect = pygame.Rect(x, y, width, height)
-        pygame.draw.rect(screen, 'White', self.rect)
+        pygame.draw.rect(screen, (0, 255, 0), self.rect)
 
 
 blocks = Blocks()
@@ -152,7 +153,7 @@ while True:
 
     blocks.draw(screen)
 
-    buttons.solve_button
+    buttons.solve_button(screen)
 
     # Get and print the colour string
     colours_string = blocks.get_colours_string()
