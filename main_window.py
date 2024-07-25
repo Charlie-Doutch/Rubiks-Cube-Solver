@@ -1,6 +1,7 @@
 import sys
 import pygame
 
+from main import SolveCube
 
 pygame.init()
 
@@ -138,11 +139,16 @@ class Buttons:
         height = 80
         self.rect = pygame.Rect(x, y, width, height)
         pygame.draw.rect(screen, (0, 255, 0), self.rect)
+    
+    def is_clicked(self, pos):
+        return self.rect.collidepoint(pos)
 
 
 blocks = Blocks()
 
 buttons = Buttons()
+
+solve_cube = SolveCube()
 
 cube_net = pygame.image.load("Rubiks-Cube-Solver/Assets/Cube_Net.png").convert_alpha()
 
@@ -163,8 +169,13 @@ while True:
             pygame.quit()
             sys.exit()
         elif event.type == pygame.MOUSEBUTTONDOWN:
-            if event.button == 1:
-                blocks.change_colour(event)
+            if event.button == 1:  # Left mouse button
+                pos = event.pos  # Get mouse position
+                if buttons.is_clicked(pos):
+                    solve_cube.solve()
+                else:
+                    blocks.change_colour(event)  # Change color if not on button
+
 
     pygame.display.update()
     clock.tick(60)
