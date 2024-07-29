@@ -148,8 +148,6 @@ blocks = Blocks()
 
 buttons = Buttons()
 
-solve_cube = SolveCube()
-
 cube_net = pygame.image.load("Rubiks-Cube-Solver/Assets/Cube_Net.png").convert_alpha()
 
 while True:
@@ -172,6 +170,7 @@ while True:
             if event.button == 1:  # Left mouse button
                 pos = event.pos  # Get mouse position
                 if buttons.is_clicked(pos):
+                    solve_cube = SolveCube(colours_string)
                     solve_cube.solve()
                 else:
                     blocks.change_colour(event)  # Change color if not on button

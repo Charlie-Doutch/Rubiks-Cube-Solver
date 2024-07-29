@@ -3,16 +3,15 @@ import os.path
 
 from cube import RubiksCube
 from solver import IDA_star, build_heuristic_dict
-from main_window import Blocks
 
 class SolveCube:
     MAX_MOVES = 5
     NEW_HEURISTICS = False
     HEURISTIC_FILE = 'Rubiks-Cube-Solver/heuristic.json'
 
-    def __init__(self):
+    def __init__(self, cube_state):
         # Initialize the cube with the current state
-        self.cube = RubiksCube(state=Blocks.get_colours_string())
+        self.cube = RubiksCube(state=cube_state)
         self.cube.show()
         print('-----------')
 
