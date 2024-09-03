@@ -51,9 +51,15 @@ class SolveCube:
 
     def solve(self):
         # Solve the cube and apply moves
-        moves = self.solver.run(self.cube.stringify())
-        print(moves)
-
+        cube_string = self.cube.stringify()
+        print("Cube state before solving:", cube_string)
+        
+        moves = self.solver.run(cube_string)
+        print("Moves returned by the solver:", moves)
+        
+        if not moves:
+            print("No moves returned by the solver.")
+        
         for m in moves:
             if m[0] == 'h':
                 self.cube.horizontal_twist(m[1], m[2])

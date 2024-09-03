@@ -11,6 +11,8 @@ screen = pygame.display.set_mode((1024, 768))
 
 clock = pygame.time.Clock()
 
+font = pygame.font.Font('freesansbold.ttf', 32)
+
 # Define color to letter mapping
 colour_to_letter = {
     'White': 'w',
@@ -134,7 +136,7 @@ class Buttons:
 
     def solve_button(self, screen):
         x = 724
-        y = 650
+        y = 640
         width = 200
         height = 80
         self.rect = pygame.Rect(x, y, width, height)
@@ -150,6 +152,11 @@ buttons = Buttons()
 
 cube_net = pygame.image.load("Rubiks-Cube-Solver/Assets/Cube_Net.png").convert_alpha()
 
+solve_button_text = font.render('Solve', True, 'Black')
+instructions_text1 = font.render('Click the individual squares', True, 'Black')
+instructions_text2 = font.render('on the net of the cube to', True, 'Black')
+instructions_text3 = font.render('match your own, then press solve.', True, 'Black')
+
 while True:
     screen.fill((255, 209, 245))
 
@@ -158,6 +165,11 @@ while True:
     blocks.draw(screen)
 
     buttons.solve_button(screen)
+
+    screen.blit(solve_button_text, (775, 665))
+    screen.blit(instructions_text1, (20, 630))
+    screen.blit(instructions_text2, (20, 665))
+    screen.blit(instructions_text3, (20, 700))
 
     # Get and print the colour string
     colours_string = blocks.get_colours_string()
