@@ -13,7 +13,7 @@ clock = pygame.time.Clock()
 
 font = pygame.font.Font('freesansbold.ttf', 32)
 
-# Define color to letter mapping
+# colour to letter mapping
 colour_to_letter = {
     'White': 'w',
     'Green': 'g',
@@ -24,6 +24,9 @@ colour_to_letter = {
 }
 
 class Block:
+    """
+    Creates the individual blocks that the user clicks on to change the initial state of the cube
+    """
     def __init__(self, x, y, width, height, initial_colour, block_colours):
         self.rect = pygame.Rect(x, y, width, height)
         self.clicked = block_colours.index(initial_colour)
@@ -40,6 +43,9 @@ class Block:
         return self.block_colours[self.clicked]
 
 class Blocks:
+    """
+    Takes the block template from the Block class, and gives them the inital values and position on the screen
+    """
     def __init__(self):
         self.block_colours = ['White', 'Green', 'Red', 'Blue', 'Orange', 'Yellow']
         self.blocks = [
@@ -116,7 +122,7 @@ class Blocks:
             block.draw(screen)
 
     def get_colours_string(self):
-        # Insert center pieces at the correct position within each face string
+        # Insert centre pieces at the correct position within each face string
         def insert_center(colour_string, centre):
             return colour_string[:4] + centre + colour_string[4:]
 
@@ -131,6 +137,9 @@ class Blocks:
         return ''.join(colors_string)
 
 class Buttons:
+    """
+    Creates the button that the user presses to start the solving process of the program
+    """
     def __init__(self):
         pass
 
@@ -153,8 +162,11 @@ buttons = Buttons()
 cube_net = pygame.image.load("Rubiks-Cube-Solver/Assets/Cube_Net.png").convert_alpha()
 
 solve_button_text = font.render('Solve', True, 'Black')
+
 instructions_text1 = font.render('Click the individual squares', True, 'Black')
+
 instructions_text2 = font.render('on the net of the cube to', True, 'Black')
+
 instructions_text3 = font.render('match your own, then press solve.', True, 'Black')
 
 while True:
@@ -167,11 +179,14 @@ while True:
     buttons.solve_button(screen)
 
     screen.blit(solve_button_text, (775, 665))
+
     screen.blit(instructions_text1, (20, 630))
+    
     screen.blit(instructions_text2, (20, 665))
+    
     screen.blit(instructions_text3, (20, 700))
 
-    # Get and print the colour string
+    # Get the colour string
     colours_string = blocks.get_colours_string()
 
     for event in pygame.event.get():
