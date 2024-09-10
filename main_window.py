@@ -5,7 +5,7 @@ from main import SolveCube
 
 pygame.init()
 
-pygame.display.set_caption('RCS')
+pygame.display.set_caption("Charlie's 3x3 Cube Solver")
 
 screen = pygame.display.set_mode((1024, 768))
 
