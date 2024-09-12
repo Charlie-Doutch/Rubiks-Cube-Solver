@@ -1,13 +1,13 @@
 import json
 import os.path
-
 from cube import RubiksCube
-from solver import IDA_star, build_heuristic_dict
+from solver import IDA_star, build_heuristic_dict, bfs_solve_rubiks_cube
 
 class SolveCube:
     MAX_MOVES = 5
     NEW_HEURISTICS = False
     HEURISTIC_FILE = 'Rubiks-Cube-Solver/heuristic.json'
+    USE_BFS = True  # Flag to choose between BFS and IDA*
 
     def __init__(self, cube_state):
         # Initialize the cube with the current state
@@ -19,7 +19,10 @@ class SolveCube:
         self.h_db = self.load_or_build_heuristics()
 
         # Initialize the solver
-        self.solver = IDA_star(self.h_db)
+        if self.USE_BFS:
+            self.solve_method = bfs_solve_rubiks_cube
+        else:
+            self.solver = IDA_star(self.h_db)
 
     def load_or_build_heuristics(self):
         # Check if heuristic file exists
@@ -53,18 +56,25 @@ class SolveCube:
         # Solve the cube and apply moves
         cube_string = self.cube.stringify()
         print("Cube state before solving:", cube_string)
-        
-        moves = self.solver.run(cube_string)
+
+        if self.USE_BFS:
+            # Use BFS solver
+            actions = [(r, n, d) for r in ['h', 'v', 'fb'] for d in [0, 1] for n in range(self.cube.n)]
+            moves = self.solve_method(cube_string, actions, max_depth=self.MAX_MOVES)
+        else:
+            # Use IDA* solver
+            moves = self.solver.run(cube_string)
+
         print("Moves returned by the solver:", moves)
-        
+
         if not moves:
             print("No moves returned by the solver.")
         
         for m in moves:
             if m[0] == 'h':
-                self.cube.horizontal_twist(m[1], m[2])
+                self.cube.horizontal_move(m[1], m[2])
             elif m[0] == 'v':
-                self.cube.vertical_twist(m[1], m[2])
+                self.cube.vertical_move(m[1], m[2])
             elif m[0] == 'fb':
-                self.cube.side_twist(m[1], m[2])
+                self.cube.front_back_move(m[1], m[2])
         self.cube.show()

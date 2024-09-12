@@ -1,15 +1,16 @@
-from random import choice
-from tqdm import tqdm #Loading bar for testing while cube solver is text/terminal based
-
+from collections import deque
 from cube import RubiksCube
+import json
+from random import choice
+from tqdm import tqdm  # For loading bar in heuristic building
 
 class IDA_star(object):
-    def __init__(self, heuristic, max_depth = 20):
+    def __init__(self, heuristic, max_depth=20):
         """
         Initializes Solver
-        
+
         heuristic = dictionary with past solves
-        max_depth = max depth tree can go, 20 has been proven to be the most moves a rubik's cube can take
+        max_depth = max depth tree can go, 20 has been proven to be the most moves a Rubik's Cube can take
         """
         self.max_depth = max_depth
         self.threshold = max_depth
@@ -20,19 +21,19 @@ class IDA_star(object):
     def run(self, state):
         """
         Solves Rubik's Cube
-        
-        State = String of Rubik's cube state
 
-        Outputs the move list to solve cube 
+        state = String of Rubik's cube state
+
+        Outputs the move list to solve cube
         """
-        while True: 
+        while True:
             status = self.search(state, 1)
             if status:
                 return self.moves
             self.moves = []
             self.threshold = self.min_threshold
         return []
-    
+
     def search(self, state, search_score):
         """
         state = string with state of cube
@@ -58,7 +59,7 @@ class IDA_star(object):
             elif a[0] == 'fb':
                 cube.front_back_move(a[1], a[2])
             if cube.solved():
-                self.moves.appened(a)
+                self.moves.append(a)
                 return True
             cube_str = cube.stringify()
             heuristic_score = self.heuristic[cube_str] if cube_str in self.heuristic else self.max_depth
@@ -71,7 +72,7 @@ class IDA_star(object):
                     best_action = [(cube_str, a)]
                 else:
                     best_action.append((cube_str, a))
-        
+
         if best_action is not None:
             if self.min_threshold is None or min_val < self.min_threshold:
                 self.min_threshold = min_val
@@ -82,14 +83,14 @@ class IDA_star(object):
                 return status
         return False
 
-def build_heuristic_dict(state, actions, max_moves = 20, heuristic = None):
+def build_heuristic_dict(state, actions, max_moves=20, heuristic=None):
     """
     state = string with state of cube
     actions = list of tuples representing moves that can be taken
     max_moves = number representing max number of moves allowed
-    heuristic = dictionary containg heuristic map
+    heuristic = dictionary containing heuristic map
 
-    Creates heuristic map for finding best path to solve cube 
+    Creates heuristic map for finding best path to solve cube
     """
     if heuristic is None:
         heuristic = {state: 0}
@@ -116,3 +117,42 @@ def build_heuristic_dict(state, actions, max_moves = 20, heuristic = None):
                 que.append((a_str, d+1))
                 pbar.update(1)
     return heuristic
+
+def bfs_solve_rubiks_cube(initial_state, actions, max_depth=20):
+    """
+    BFS to solve the Rubik's Cube
+    initial_state = current scrambled cube state
+    actions = list of possible actions (moves)
+    max_depth = maximum number of moves to explore
+    """
+    # Initialize a queue for BFS
+    queue = deque([(initial_state, [])])  # Stores (state, list_of_moves)
+    visited = set([initial_state])  # To avoid revisiting states
+
+    while queue:
+        current_state, move_list = queue.popleft()
+
+        # Check if cube is solved
+        cube = RubiksCube(state=current_state)
+        if cube.solved():
+            return move_list  # Return the sequence of moves to solve
+
+        # If not solved, explore all possible moves
+        if len(move_list) < max_depth:
+            for action in actions:
+                next_cube = RubiksCube(state=current_state)
+                if action[0] == 'h':
+                    next_cube.horizontal_move(action[1], action[2])
+                elif action[0] == 'v':
+                    next_cube.vertical_move(action[1], action[2])
+                elif action[0] == 'fb':
+                    next_cube.front_back_move(action[1], action[2])
+
+                next_state = next_cube.stringify()
+
+                # Only explore new states
+                if next_state not in visited:
+                    visited.add(next_state)
+                    queue.append((next_state, move_list + [action]))
+    
+    return None  # No solution found within max_depth
