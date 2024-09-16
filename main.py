@@ -2,6 +2,7 @@ import json
 import os.path
 from cube import RubiksCube
 from solver import IDA_star, build_heuristic_dict, bfs_solve_rubiks_cube
+import threading
 
 class SolveCube:
     MAX_MOVES = 5
@@ -56,6 +57,9 @@ class SolveCube:
         # Solve the cube and apply moves
         cube_string = self.cube.stringify()
         print("Cube state before solving:", cube_string)
+
+        solver_thread = threading.Thread(target=self.solve)
+        solver_thread.start()
 
         if self.USE_BFS:
             # Use BFS solver
