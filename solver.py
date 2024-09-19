@@ -1,3 +1,4 @@
+# Credit to Ben Bellerose for the Basis of this Solving Code
 from collections import deque
 from cube import RubiksCube
 import json
@@ -5,7 +6,7 @@ from random import choice
 from tqdm import tqdm  # For loading bar in heuristic building
 
 class IDA_star(object):
-    def __init__(self, heuristic, max_depth=20):
+    def __init__(self, heuristic, max_depth=5):
         """
         Initializes Solver
 
@@ -117,42 +118,3 @@ def build_heuristic_dict(state, actions, max_moves=20, heuristic=None):
                 que.append((a_str, d+1))
                 pbar.update(1)
     return heuristic
-
-def bfs_solve_rubiks_cube(initial_state, actions, max_depth=20):
-    """
-    BFS to solve the Rubik's Cube
-    initial_state = current scrambled cube state
-    actions = list of possible actions (moves)
-    max_depth = maximum number of moves to explore
-    """
-    # Initialize a queue for BFS
-    queue = deque([(initial_state, [])])  # Stores (state, list_of_moves)
-    visited = set([initial_state])  # To avoid revisiting states
-
-    while queue:
-        current_state, move_list = queue.popleft()
-
-        # Check if cube is solved
-        cube = RubiksCube(state=current_state)
-        if cube.solved():
-            return move_list  # Return the sequence of moves to solve
-
-        # If not solved, explore all possible moves
-        if len(move_list) < max_depth:
-            for action in actions:
-                next_cube = RubiksCube(state=current_state)
-                if action[0] == 'h':
-                    next_cube.horizontal_move(action[1], action[2])
-                elif action[0] == 'v':
-                    next_cube.vertical_move(action[1], action[2])
-                elif action[0] == 'fb':
-                    next_cube.front_back_move(action[1], action[2])
-
-                next_state = next_cube.stringify()
-
-                # Only explore new states
-                if next_state not in visited:
-                    visited.add(next_state)
-                    queue.append((next_state, move_list + [action]))
-    
-    return None  # No solution found within max_depth

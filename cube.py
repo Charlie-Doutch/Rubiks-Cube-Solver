@@ -1,3 +1,4 @@
+# Credit to Ben Bellerose for the Basis of this Solving Code
 class RubiksCube:
     def __init__(self, n=3, colours=['w', 'o', 'g', 'r', 'b', 'y'], state=None):
         """

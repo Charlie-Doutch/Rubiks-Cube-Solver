@@ -1,14 +1,14 @@
+# Credit to Ben Bellerose for the Basis of this Solving Code
 import json
 import os.path
 from cube import RubiksCube
-from solver import IDA_star, build_heuristic_dict, bfs_solve_rubiks_cube
+from solver import IDA_star, build_heuristic_dict
 import threading
 
 class SolveCube:
     MAX_MOVES = 5
     NEW_HEURISTICS = False
     HEURISTIC_FILE = 'Rubiks-Cube-Solver/heuristic.json'
-    USE_BFS = True  # Flag to choose between BFS and IDA*
 
     def __init__(self, cube_state):
         # Initialize the cube with the current state
@@ -61,13 +61,8 @@ class SolveCube:
         solver_thread = threading.Thread(target=self.solve)
         solver_thread.start()
 
-        if self.USE_BFS:
-            # Use BFS solver
-            actions = [(r, n, d) for r in ['h', 'v', 'fb'] for d in [0, 1] for n in range(self.cube.n)]
-            moves = self.solve_method(cube_string, actions, max_depth=self.MAX_MOVES)
-        else:
-            # Use IDA* solver
-            moves = self.solver.run(cube_string)
+        # Use IDA* solver
+        moves = self.solver.run(cube_string)
 
         print("Moves returned by the solver:", moves)
 
