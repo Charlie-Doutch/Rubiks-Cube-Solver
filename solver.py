@@ -1,5 +1,4 @@
 # Credit to Ben Bellerose for the Basis of this Solving Code
-from collections import deque
 from cube import RubiksCube
 import json
 from random import choice
