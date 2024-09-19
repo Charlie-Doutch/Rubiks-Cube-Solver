@@ -1,7 +1,6 @@
 # Credit to Ben Bellerose for the Basis of this Solving Code
 from cube import RubiksCube
 import json
-from random import choice
 from tqdm import tqdm  # For loading bar in heuristic building
 
 class IDA_star(object):
@@ -83,7 +82,7 @@ class IDA_star(object):
                 return status
         return False
 
-def build_heuristic_dict(state, actions, max_moves=20, heuristic=None):
+def build_heuristic_dict(state, actions, max_moves=5, heuristic=None):
     """
     state = string with state of cube
     actions = list of tuples representing moves that can be taken
